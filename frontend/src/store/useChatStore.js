@@ -1,6 +1,7 @@
 import {create} from "zustand"
 import toast from "react-hot-toast"
 import { axiosInstance } from "../lib/axios"
+import { useAuthStore } from "./useAuthStore";
 // import { sendMessage } from "../../../backend/src/controllers/message.controller";
 
 export const useChatStore = create((set, get)=>({
@@ -43,6 +44,27 @@ export const useChatStore = create((set, get)=>({
             toast.error(error.response.data.message);
         }
     },
-    //todo : optimize this one later
+    subscribeToMessages: ()=>{
+        const {selectedUser} = get();
+        if(!selectedUser) return;
+
+        const socket = useAuthStore.getState().socket;
+
+        
+        socket.on("newMessage", (newMessage)=>{
+
+            // this ensures message will be send to intended user not random selected
+            const isMessageSentFromSelectedUser = newMessage.senderId===selectedUser._id;
+            if(!isMessageSentFromSelectedUser) return;
+            set({
+                messages:[...get().messages, newMessage],
+            });
+        });
+    },
+
+    unsubscribeToMessages: ()=>{
+        const socket = useAuthStore.getState().socket;
+        socket.off("newMessage");
+    },
     setSelectedUser: (selectedUser) => set({selectedUser})
 }))

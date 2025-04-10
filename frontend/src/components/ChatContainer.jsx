@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useChatStore } from '../store/useChatStore'
 import { ChatHeader } from './ChatHeader';
 import { MessageInput } from './MessageInput';
@@ -8,11 +8,23 @@ import { useAuthStore } from '../store/useAuthStore';
 
 
 export const ChatContainer =()=> {
-  const {messages, getMessages, isMessageLoading, selectedUser} = useChatStore();
+  const {messages, getMessages, isMessageLoading, selectedUser, subscribeToMessages, unsubscribeToMessages} = useChatStore();
   const {authUser} = useAuthStore();
+  const messageEndRef = useRef(null);
+
   useEffect(()=>{
     getMessages(selectedUser._id);
-  }, [selectedUser._id, getMessages]);
+    subscribeToMessages();
+
+    return ()=>unsubscribeToMessages(); //for theperformance reason
+  }, [selectedUser._id, getMessages,subscribeToMessages, unsubscribeToMessages ]);
+
+  useEffect(()=>{
+    if(messageEndRef.current && messages){
+      messageEndRef.current.scrollIntoView({behavior:"smooth"});
+    }
+  },[messages])
+
   if(isMessageLoading) return (
     <div className='flex-1 flex-col overflow-auto'>
       <ChatHeader />
@@ -28,7 +40,8 @@ export const ChatContainer =()=> {
         <div className='flex-1 h-[calc(80vh-4rem)] overflow-y-auto p-4 space-y-4'>
           {messages.map((message)=>(
             <div key={message._id} 
-              className={`chat ${message.senderId===authUser._id ? "chat-end" : "chat-start"}`}
+              className={`chat ${message.senderId===authUser._id ? "chat-end" : "chat-start"}`} 
+              ref ={messageEndRef}
             >
               <div className='chat image avatar'>
                 <div className='size-10 rounded-full border'>
@@ -43,7 +56,7 @@ export const ChatContainer =()=> {
                 </time>
               </div>
 
-              <div className='chat-bubble flex-1'>
+              <div className='chat-bubble flex-col'>
                 {message.image && (
                   <img src={message.image} alt="Attachment" className='sm:max-w-[200px] rounded-md mb-2' />
                 )}

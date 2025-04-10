@@ -33,7 +33,7 @@ export const Sidebar = ()=> {
         {/* Online filter toggle will be completed later */}
         <div className='mt-3 hidden lg:flex items-center gap-2'>
           <label className='cursor-pointer flex items-center gap-2'>
-            <input type='checkbox' checked={showOnlineOnly} onChange={(e) =>{setShowOnlineOnly(!e.target.checked)}} className='checkbox checkbox-sm' />
+            <input type='checkbox' checked={showOnlineOnly} onChange={(e) =>{setShowOnlineOnly(e.target.checked)}} className='checkbox checkbox-sm' />
           <span className='text-sm'>Show Online Only </span>
           </label>
           <span className='text-xs text-zinc-500'> {onlineUsers.length-1} online </span>
