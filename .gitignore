@@ -1,6 +1,7 @@
 # Ignore ALL node_modules folders
-**/node_modules/
+# **/node_modules/
 
 # Or specify them individually
-backend/node_modules/
-frontend/node_modules/
+# backend/node_modules/
+node_modules/
+.env

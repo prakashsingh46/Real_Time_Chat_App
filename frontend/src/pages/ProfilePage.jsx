@@ -33,7 +33,7 @@ export const ProfilePage = () => {
           {/* avatar upload section */}
 
           <div className="flex flex-col items-center gap-4">
-            <div className="relative">
+            <div className="relative ">
               <img
                 src={selectedImg || authUser.profilePic || "/images.png"}
                 alt="Profile"

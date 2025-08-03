@@ -40,6 +40,7 @@ export const useAuthStore = create((set, get)=>({
         }
     },
 
+
     login:async (data) =>{
         set({isLoggingIn:true});
         try {
