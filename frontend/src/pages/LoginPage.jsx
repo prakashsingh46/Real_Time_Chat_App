@@ -73,7 +73,7 @@ export const  LoginPage =()=> {
                         </div>
                         <input type={showPassword ? "text" : "password"} className={`input input-bordered w-full pl-10`} placeholder='••••••••'value={formData.password} onChange={(e)=>setFormData({ ...formData, password:e.target.value})} /> 
 
-                        <button type="button" className='absolute inset-y-0 right-0 pr-3 flex items-center' onClick={()=>setShowPassword(!showPassword)}  >
+                        <button type="button" className='absolute inset-y-0 right-0 pr-3 flex items-center ' onClick={()=>setShowPassword(!showPassword)}  >
                             {showPassword ? (<EyeOff className="size-5 text-base-content/40" />) :(<Eye className='size-5 text-base-content/40' /> )}
 
                         </button>
@@ -81,7 +81,7 @@ export const  LoginPage =()=> {
                     </div>
                 </div>
 
-                <button type="submit" className='btn btn-primary w-full' disabled={isLoggingIn} >
+                <button type="submit" className='btn btn-primary w-full ' disabled={isLoggingIn} >
                     {isLoggingIn ? (
                     <>
                         <Loader className="size-5 animate-spin" />

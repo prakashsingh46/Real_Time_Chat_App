@@ -7,7 +7,13 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        'spin-slow': 'spin 8s linear infinite',
+        'bounce-slow': 'bounce 2.5s infinite',
+      },
+    },
   },
   plugins: [daisyui],
 }
+
